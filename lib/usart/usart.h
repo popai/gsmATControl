@@ -1,0 +1,51 @@
+/******************************************************************************
+
+                                    USART Core
+						           ----------
+This module is used for doing serial communication using USART.
+
+*******************************************************************************/
+
+#include <inttypes.h>
+
+#ifndef USART_H
+#define USART_H
+/****************************************************************************************************/
+
+//Macros
+#define RECEIVE_BUFF_SIZE 128
+#define USART_RXC_VECT USART_RX_vect	//This change from mcu to mcu. This is for mega8, mega16, mega32
+
+//#define F_CPU 12000000UL
+
+#define UBRR_VALUE(baud) ((F_CPU/(baud<<4))-1)
+
+
+//Varriables
+volatile char URBuff[RECEIVE_BUFF_SIZE];	//USART Receive Buffer
+volatile int8_t UQFront;
+volatile int8_t UQEnd;
+
+//Functions
+void USARTInit(uint16_t ubrrvalue);
+
+uint8_t UDataAvailable();
+
+char UReadData();
+void UWriteData(char data);
+void UWriteInt( int );
+void UWriteString(const char *str);
+
+void UReadBuffer(void *buff,uint16_t len);
+void UFlushBuffer();
+int SerialRead(char *);
+
+
+
+
+/****************************************************************************************************/
+
+
+#endif
+
+
